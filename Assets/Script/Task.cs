@@ -6,16 +6,23 @@ using UnityEngine.UI;
 public class Task : MonoBehaviour
 {
     [SerializeField] Text _name;
-    [SerializeField] Text _level;
+    [SerializeField] Image _level;
     [SerializeField] GameObject _count;
+    public GameManager _gm;
 
     public string _taskName;
     public int _taskLevel;
     public TaskManager.Task _taskType;
     public int _clearCount;
+    public int num;
     void Start()
     {
         _name.text = _taskName;
+        
     }
-
+    public void AddPoint()
+    {
+        _gm._cityPoint += num;
+        _gm._money += num;
+    }
 }

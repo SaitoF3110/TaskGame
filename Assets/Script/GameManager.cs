@@ -52,12 +52,12 @@ public class GameManager : MonoBehaviour
         _cityLevel = lv + 1;
         
     }
-    void AddPoints(int point)
+    public void AddPoints(int point)
     {
         _cityPoint += point;
         _money += point;
     }
-    void AddExp(int exp)
+    public void AddExp(int exp)
     {
         _nowExp += exp;
     }

@@ -7,6 +7,7 @@ using System;
 
 public class DailyTask : MonoBehaviour
 {
+    public GameManager _gm;
     //ÉZÅ[Éuê›íË
     private protected QuickSaveSettings m_saveSettings;
     int _taskCount = 0;
@@ -35,6 +36,10 @@ public class DailyTask : MonoBehaviour
     void Update()
     {
         
+    }
+    public void AddTask()
+    {
+
     }
     public void LoadUserData()
     {

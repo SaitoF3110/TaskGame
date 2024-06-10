@@ -25,13 +25,34 @@ public class GameManager : MonoBehaviour
     {
         _levelText.text = _cityLevel.ToString();
         _pointText.text = "都市ポイント：" + _cityPoint.ToString();
-        _moneyText.text = "資金：" + _money.ToString();
+        _moneyText.text = "資金：" + YenConvert(_money) + "円";
 
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Exp();
         }
+    }
+    string YenConvert(int money)
+    {
+        string ms = money.ToString();
+        List<char> list = new List<char>();
+        string ans = "";
+        for(int i = ms.Length - 1;i >= 0; i--)
+        {
+            if(ms.Length - i - 1 == 4)
+            {
+                list.Add('万');
+            }
+            if (ms.Length - i - 1 == 8)
+            {
+                list.Add('億');
+            }
+            list.Add(ms[i]);
+        }
+        list.Reverse();
+        ans = string.Join("", list.ToArray());
+        return ans;
     }
     void Exp()
     {

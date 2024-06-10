@@ -1,16 +1,14 @@
-using UnityEngine;
 using CI.QuickSave;
 using CI.QuickSave.Core.Storage;
-using System.Collections.Generic;
+using UnityEngine;
 
-public class UserData : MonoBehaviour
+public class NewBehaviourScript : MonoBehaviour
 {
     //ユーザー名
     string userName;
     private protected string a = "Wow";
     //ベストスコア
     int bestScore;
-    [SerializeField] GameObject _taskM;
     float _time = 0;
     //セーブ設定
     private protected QuickSaveSettings m_saveSettings;
@@ -30,12 +28,13 @@ public class UserData : MonoBehaviour
     }
     public void Update()
     {
-        _time += Time.deltaTime;
-        if (_time > 5)
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             Save();
-            Debug.Log("セーブしました");
-            _time = 0;
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Load();
         }
     }
 
@@ -144,4 +143,3 @@ public class UserData : MonoBehaviour
         Debug.Log("ロード完了。ほかに何も表示されなければ失敗");
     }
 }
-

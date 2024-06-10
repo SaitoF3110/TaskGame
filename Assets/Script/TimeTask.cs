@@ -16,27 +16,25 @@ public class TimeTask : MonoBehaviour
     void Start()
     {
         Bonus(_gameManager._cityLevel);
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            _bounus = Bonus(_gameManager._cityLevel);
-            Debug.Log(_bounus + "%");
-        }
+        //ボーナス割合計算
+        _bounus = Bonus(_gameManager._cityLevel);
         _bounsText.text = "現在のボーナス" + _bounus.ToString("F2") + "%";
 
         if (_onWork)
         {
             _time += Time.deltaTime;
         }
+
+        //獲得ポイントの計算
         _timeText.text = TimeConbert((int)_time);
         int point = (int)(_time / 600);
         _lastPoint = (int)(point + point * (_bounus / 100));
-        _lastPointText.text = _lastPoint.ToString();
+        _lastPointText.text = "現在の蓄積ポイント：" + point + "\n最終ポイント:" + _lastPoint.ToString();
     }
     float Bonus(int level)
     {

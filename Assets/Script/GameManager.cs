@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     public int _nextExp;
     void Start()
     {
-        
+        Screen.SetResolution(270, 608, false);
     }
 
     // Update is called once per frame
@@ -27,11 +27,7 @@ public class GameManager : MonoBehaviour
         _pointText.text = "ìsésÉ|ÉCÉìÉgÅF" + _cityPoint.ToString();
         _moneyText.text = "éëã‡ÅF" + YenConvert(_money) + "â~";
 
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Exp();
-        }
+        Exp();
     }
     string YenConvert(int money)
     {

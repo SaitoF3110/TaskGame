@@ -15,10 +15,12 @@ public class DailyTask : MonoBehaviour
     string userName;
     //ベストスコア
     int bestScore;
-    
+
+    float _time;
+
     //日常業務リスト
     //名前、難易度、達成済みか
-    List<Tuple<string,int,int>> _dailyTask = new List<Tuple<string,int,int>>();
+    List<Tuple<string,int,bool>> _dailyTask = new List<Tuple<string,int,bool>>();
     void Start()
     {
         // QuickSaveSettingsのインスタンスを作成
@@ -35,7 +37,12 @@ public class DailyTask : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        _time += Time.deltaTime;
+        if (_time > 1)
+        {
+            SaveUserData();
+            _time = 0;
+        }
     }
     public void AddTask()
     {
@@ -52,16 +59,23 @@ public class DailyTask : MonoBehaviour
         // QuickSaveReaderのインスタンスを作成
         QuickSaveReader reader = QuickSaveReader.Create("SaveData", m_saveSettings);
         string num;
-        _taskCount = int.Parse(reader.Read<string>("日常業務総数"));
+        try
+        {
+            _taskCount = int.Parse(reader.Read<string>("日常業務総数"));
+        }
+        catch (QuickSaveException e)
+        {
+            _taskCount = 0;
+        }
         for (int i = 0; i < _taskCount; i++)
         {
             string name = (reader.Read<string>(i + "名前"));
-            int difi = int.Parse(reader.Read<string>(i + "難易度"));
-            int done = int.Parse(reader.Read<string>(i + "達成"));
-            _dailyTask.Add(new Tuple<string, int, int>(name, difi, done));
+            int difi = reader.Read<int>(i + "難易度");
+            bool done = reader.Read<bool>(i + "達成");
+            _dailyTask.Add(new Tuple<string, int, bool>(name, difi, done));
 
         }
-        Debug.Log("ロード完了。ほかに何も表示されなければ失敗");
+        Debug.Log("ロード完了。");
     }
 
     /// <summary>
@@ -71,7 +85,7 @@ public class DailyTask : MonoBehaviour
     {
         QuickSaveWriter writer = QuickSaveWriter.Create("SaveData", m_saveSettings);
         int a = 0;
-        foreach (Tuple<string,int,int> task in _dailyTask)
+        foreach (Tuple<string,int,bool> task in _dailyTask)
         {
             writer.Write(a.ToString() + "名前", task.Item1);
             writer.Write(a.ToString() + "難易度", task.Item2);

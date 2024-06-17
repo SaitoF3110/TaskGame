@@ -3,7 +3,9 @@ using CI.QuickSave.Core.Storage;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,10 +17,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] Text _pointText;
     [SerializeField] Text _moneyText;
 
+    [SerializeField] Slider _expSlider;
+
     private protected QuickSaveSettings m_saveSettings;
 
     public int _nowExp = 10;
     public int _nextExp;
+
+    public int _sliderMaxExp;
+    public int _sliderExp;
     float _time;
     void Start()
     {
@@ -31,6 +38,8 @@ public class GameManager : MonoBehaviour
         m_saveSettings.Password = "Password";
         // 圧縮の方法
         m_saveSettings.CompressionMode = CompressionMode.Gzip;
+        // データの保存先をApplication.dataPathに変更
+        QuickSaveGlobalSettings.StorageLocation = Application.temporaryCachePath;
 
         //データ読み込み
         LoadUserData();
@@ -115,9 +124,10 @@ public class GameManager : MonoBehaviour
     {
         int lv = 0;
         int experience = _nowExp;
+        int xp;
         while (true)
         {
-            int xp = (int)(Mathf.Pow(1.01f,lv) * 50);
+            xp = (int)(Mathf.Pow(1.01f,lv) * 50);
             experience -= xp;
             if(experience < 0)
             {
@@ -127,6 +137,10 @@ public class GameManager : MonoBehaviour
             }
             lv++;
         }
+        _sliderMaxExp = xp;
+        _sliderExp = xp - _nextExp;
+        _expSlider.maxValue = _sliderMaxExp;
+        _expSlider.value = _sliderExp;
         _cityLevel = lv + 1;
         
     }

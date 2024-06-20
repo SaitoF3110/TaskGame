@@ -37,7 +37,7 @@ public class DailyTask : MonoBehaviour
     //名前、難易度、達成済みか、周期（ デイリー ウィークリー  マンスリー）
     //trueは達成済み、falseは未達成
     public List<Tuple<string,int,bool,string>> _dailyTask = new List<Tuple<string,int,bool,string>>();
-    void Start()
+    void Awake()
     {
 
         // QuickSaveSettingsのインスタンスを作成
@@ -51,8 +51,6 @@ public class DailyTask : MonoBehaviour
         // データの保存先をApplication.dataPathに変更
         QuickSaveGlobalSettings.StorageLocation = Application.temporaryCachePath;
         LoadUserData();
-        TaskDisplay();
-        _login = true;
     }
 
     // Update is called once per frame
@@ -126,7 +124,6 @@ public class DailyTask : MonoBehaviour
         catch (QuickSaveException e)
         {
             _taskCount = 0;
-            Debug.Log("でーたなし");
         }
 
         //時間を取得
@@ -197,7 +194,6 @@ public class DailyTask : MonoBehaviour
         writer.Write("DateTime", TodayNow.ToBinary().ToString());
 
         writer.Commit();
-        Debug.Log("セーブ完了");
     }
     void Resetyyyy()
     {

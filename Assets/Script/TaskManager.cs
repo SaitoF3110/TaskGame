@@ -14,10 +14,17 @@ public class TaskManager : MonoBehaviour
     [SerializeField] int _timeX;
 
     [SerializeField] GameObject _taskObj;
+
+    [SerializeField] DailyTask _taskD;
+    [SerializeField] RepetTask _taskR;
+    [SerializeField] SpecialTask _taskS;
     
     void Start()
     {
-        
+        _taskD.TaskDisplay();
+        _taskR.TaskDisplay();
+        _taskS.TaskDisplay();
+        Move(1);
     }
 
     void Update()

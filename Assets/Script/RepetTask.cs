@@ -30,7 +30,7 @@ public class RepetTask : MonoBehaviour
     //繰り返し業務リスト
     //名前、難易度、達成回数
     public List<Tuple<string, int,int>> _repetTask = new List<Tuple<string, int, int>>();
-    void Start()
+    void Awake()
     {
 
         // QuickSaveSettingsのインスタンスを作成
@@ -44,8 +44,6 @@ public class RepetTask : MonoBehaviour
         // データの保存先をApplication.dataPathに変更
         QuickSaveGlobalSettings.StorageLocation = Application.temporaryCachePath;
         LoadUserData();
-        TaskDisplay();
-        _login = true;
     }
 
     // Update is called once per frame
@@ -119,7 +117,6 @@ public class RepetTask : MonoBehaviour
         catch (QuickSaveException e)
         {
             _taskCount = 0;
-            Debug.Log("でーたなし");
         }
         //時間を取得
         TodayNow = DateTime.Now;
@@ -158,6 +155,5 @@ public class RepetTask : MonoBehaviour
         writer.Write("月", TodayNow.Month);
 
         writer.Commit();
-        Debug.Log("セーブ完了");
     }
 }

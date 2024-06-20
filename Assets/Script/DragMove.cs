@@ -15,7 +15,7 @@ public class DragMove : MonoBehaviour
     void Update()
     {
         //ドラッグ中もしくはスワイプ中
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(1))
         {
             float dx, dy;
 

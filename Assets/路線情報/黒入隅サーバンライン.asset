@@ -9,22 +9,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb11042eeb1a39140ba9e456d7902943, type: 3}
-  m_Name: "\u9ED2\u5165\u9685\u533A"
+  m_Script: {fileID: 11500000, guid: fedd258edb65b5f4dabc641f3e4dfac8, type: 3}
+  m_Name: "\u9ED2\u5165\u9685\u30B5\u30FC\u30D0\u30F3\u30E9\u30A4\u30F3"
   m_EditorClassIdentifier: 
-  _name: "\u9ED2\u5165\u9685\u533A"
-  _populationH: 450000
-  _populationC: 100000
-  _populationI: 50000
-  _sights:
-  - "\u9ED2\u5165\u9685\u99C5"
+  _name: "\u9ED2\u5165\u9685\u30B5\u30FC\u30D0\u30F3\u30E9\u30A4\u30F3"
+  _station:
+  - "\u839E\u5DFB\u99C5"
+  - "\u91D8\u9006\u30F6\u5CF0\u99C5"
+  - "\u516B\u6761\u6C34\u99C5"
+  - "\u5FA1\u6C11\u99C5"
   - "\u9ED2\u5165\u9685\u30D1\u30FC\u30AF\u99C5"
   - "\u77F3\u8EF8\u99C5"
   - "\u5439\u6BDB\u99C5"
+  - "\u9ED2\u5165\u9685\u99C5"
   - "\u660E\u6708\u99C5"
   - "\u4F0A\u4EE3\u4E95\u99C5"
   - "\u6709\u8CC0\u99C5"
   - "\u897F\u9ED2\u5165\u9685\u99C5"
-  - "\u98F2\u5451\u91CE\u99C5"
-  - "\u6E6F\u904B\u99C5"
-  - "\u7FBD\u8449\u6728\u99C5"
+  - "\u4E2D\u6D45\u5742\u99C5"
+  - "\u6D45\u5742\u99C5"
+  - "\u65E5\u74E6\u539F\u99C5"
+  - "\u6D77\u8001\u5CF0\u99C5"

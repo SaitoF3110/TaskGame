@@ -59,7 +59,9 @@ public class CityDev : MonoBehaviour
 
         _totalPop = _wardInfo._populationH + _wardInfo._populationC + _wardInfo._populationI;
         float nowPop = _popH + _popC + _popI;
-        float pa = (float)(((nowPop / _totalPop) * 100) * 0.8);
+        float ue = _wardInfo._sights.Length - _sightList.Count;
+        float shita = _wardInfo._sights.Length;
+        float pa = (float)(((nowPop / _totalPop) * 100) * 0.8) + (float)(((ue / shita) * 100) * 0.2f);
         _percentage.text = "達成率　" + pa.ToString("F2") + "%";
         _gage.value = pa;
 
@@ -130,7 +132,8 @@ public class CityDev : MonoBehaviour
                 //開発可能状態(true)だったら名所リストに追加
                 if (reader.Read<bool>(wi._sights[i]))
                 {
-                    _sightList.Add(wi._sights[i]);
+                    _sightList.Add(wi._sights[i].Trim());
+                    //スペース　によるバグ防止
                 }
             }
         }
@@ -170,7 +173,7 @@ public class CityDev : MonoBehaviour
             _sightList.Remove(_sightList[_wardDropdown.value]);
 
             _gameManager._cityPoint -= 500;
-            _gameManager.AddExp(2000);
+            _gameManager.AddExp(1000);
             Instantiate(_addSE);
             _wardDropdown.value = 0;
             WardChange(_wardInfo);

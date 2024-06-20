@@ -16,4 +16,8 @@ MonoBehaviour:
   _populationH: 130000
   _populationC: 40000
   _populationI: 130000
-  _sights: []
+  _sights:
+  - "\u66AE\u4E45\u5229\u99C5"
+  - "\u7D3A\u91D1\u5C71\u99C5"
+  - "\u771F\u6731\u66AE\u99C5"
+  - "\u7345\u5B50\u3042\u304B\u3064\u304D\u99C5"

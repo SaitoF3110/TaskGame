@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public int _cityLevel = 1;
     public int _cityPoint = 0;
     public int _money = 0;
+    public float _happyPoint = 0;
 
     [SerializeField] Text _levelText;
     [SerializeField] Text _pointText;
@@ -57,6 +58,10 @@ public class GameManager : MonoBehaviour
         _levelText.text = _cityLevel.ToString();
         _pointText.text = "“sŽsƒ|ƒCƒ“ƒgF" + _cityPoint.ToString();
         _moneyText.text = "Ž‘‹àF" + YenConvert(_money) + "‰~";
+        if (_happyPoint > 100)
+        {
+            _happyPoint = 100;
+        }
 
         Exp();
     }

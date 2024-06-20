@@ -6,6 +6,7 @@ using CI.QuickSave.Core.Storage;
 using System;
 using UnityEditor.PackageManager.Requests;
 using static Unity.VisualScripting.Metadata;
+using System.Globalization;
 
 public class DailyTask : MonoBehaviour
 {
@@ -22,8 +23,11 @@ public class DailyTask : MonoBehaviour
     [SerializeField] GameObject _taskPrefab;
     [SerializeField] GameObject _addObject;
     [SerializeField] GameObject _TaskMask;
+    [SerializeField] ObjInstant _oi;
 
     [SerializeField] int _intarval = 100;
+
+    bool _login = false;
 
     float _time;
 
@@ -48,6 +52,7 @@ public class DailyTask : MonoBehaviour
         QuickSaveGlobalSettings.StorageLocation = Application.temporaryCachePath;
         LoadUserData();
         TaskDisplay();
+        _login = true;
     }
 
     // Update is called once per frame
@@ -64,9 +69,11 @@ public class DailyTask : MonoBehaviour
     public void TaskDone(int num)
     {
         _dailyTask[num] = new Tuple<string, int, bool, string>(_dailyTask[num].Item1, _dailyTask[num].Item2, true, _dailyTask[num].Item4);
+        _oi.SEInstantrate();
     }
     public void TaskDisplay()
     {
+
         // parentObject のすべての子オブジェクトを削除
         foreach (Transform child in _TaskMask.transform)
         {
@@ -86,6 +93,7 @@ public class DailyTask : MonoBehaviour
             task._taskNumber = i;
             task._dailyTask = this.gameObject.GetComponent<DailyTask>();
             task._done = _dailyTask[i].Item3;
+            task.point = (_dailyTask[i].Item2 + 1) * 10;
 
         }
         _addObject.transform.position = new Vector3(132, _intarval * _dailyTask.Count + 450, 0);
@@ -105,31 +113,65 @@ public class DailyTask : MonoBehaviour
 
         // QuickSaveReaderのインスタンスを作成
         QuickSaveReader reader = QuickSaveReader.Create("SaveData", m_saveSettings);
+        int y = 0;
+        int m = 0;
+        int d = 0;
         try
         {
             _taskCount = int.Parse(reader.Read<string>("日常業務総数"));
+            y = reader.Read<int>("年");
+            m = reader.Read<int>("月");
+            d = reader.Read<int>("日");
         }
         catch (QuickSaveException e)
         {
             _taskCount = 0;
             Debug.Log("でーたなし");
         }
+
+        //時間を取得
+        TodayNow = DateTime.Now;
         for (int i = 0; i < _taskCount; i++)
         {
             string name = reader.Read<string>("D名前" + i);
             int difi = reader.Read<int>("D難易度" + i);
             bool done = reader.Read<bool>("D達成" + i);
             string cycle = reader.Read<string>("D周期" + i);
+            string dateTimeString = reader.Read<string>("DateTime");
+            DateTime time = DateTime.FromBinary(Convert.ToInt64(dateTimeString));
+            //デイリーなどが、日をまたいだ時の処理
+            if (cycle == "Monthly")
+            {
+                if (TodayNow.Year != y || TodayNow.Month != m)
+                {
+                    done = true;
+                }
+            }
+            if (cycle == "Weekly")
+            {
+                if (GetWeekCount(y, m, d) < GetWeekCount(TodayNow.Year,TodayNow.Month,TodayNow.Day))
+                {
+                    done = true;
+                }
+            }
+            if (cycle == "Daily")
+            {
+                if (TodayNow.Year != y || TodayNow.Month != m || TodayNow.Day != d)
+                {
+                    done = true;
+                    _login = false;
+                }
+            }
+
             _dailyTask.Add(new Tuple<string, int, bool, string>(name, difi, done,cycle));
 
         }
-        //デイリーなどが、日をまたいだ時の処理
-        for(int i = 0;i < _dailyTask.Count; i++)
-        {
-            bool renewal = false;
-            
-        }
-        Debug.Log("ロード完了。");
+    }
+    public int GetWeekCount(int y,int m,int d)
+    {
+        DateTimeFormatInfo dfi = DateTimeFormatInfo.CurrentInfo;
+        Calendar cal = dfi.Calendar;
+        return cal.GetWeekOfYear(new DateTime(y,m, d), dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
     }
 
     /// <summary>
@@ -151,6 +193,8 @@ public class DailyTask : MonoBehaviour
         writer.Write("年", TodayNow.Year);
         writer.Write("月", TodayNow.Month);
         writer.Write("日", TodayNow.Day);
+        writer.Write("ログイン", _login);
+        writer.Write("DateTime", TodayNow.ToBinary().ToString());
 
         writer.Commit();
         Debug.Log("セーブ完了");

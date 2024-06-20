@@ -16,4 +16,6 @@ MonoBehaviour:
   _populationH: 100000
   _populationC: 20000
   _populationI: 10000
-  _sights: []
+  _sights:
+  - "\u5317\u9CE9\u99C5"
+  - "\u58F1\u8EF8\u99C5"

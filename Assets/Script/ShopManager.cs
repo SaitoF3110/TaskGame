@@ -15,6 +15,9 @@ public class ShopManager : MonoBehaviour
     [SerializeField] GameObject _parentObj;
     [SerializeField] GameManager _gm;
 
+    [SerializeField] ObjInstant _oi;
+    [SerializeField] ObjInstant _oiFail;
+
     [SerializeField] int _intarval = 0;
 
     [SerializeField] int _hight;
@@ -63,10 +66,15 @@ public class ShopManager : MonoBehaviour
         if (_gm._money >= value)
         {
             _gm._money -= value;
+            _oi.SEInstantrate();
             if (_isLimit)
             {
                 Delete(num);
             }
+        }
+        else
+        {
+            _oiFail.SEInstantrate();
         }
     }
 }

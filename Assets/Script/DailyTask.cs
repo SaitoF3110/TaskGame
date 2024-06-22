@@ -141,21 +141,21 @@ public class DailyTask : MonoBehaviour
             {
                 if (TodayNow.Year != y || TodayNow.Month != m)
                 {
-                    done = true;
+                    done = false;
                 }
             }
             if (cycle == "Weekly")
             {
                 if (GetWeekCount(y, m, d) < GetWeekCount(TodayNow.Year,TodayNow.Month,TodayNow.Day))
                 {
-                    done = true;
+                    done = false;
                 }
             }
             if (cycle == "Daily")
             {
                 if (TodayNow.Year != y || TodayNow.Month != m || TodayNow.Day != d)
                 {
-                    done = true;
+                    done = false;
                     _login = false;
                 }
             }
@@ -193,12 +193,6 @@ public class DailyTask : MonoBehaviour
         writer.Write("ƒƒOƒCƒ“", _login);
         writer.Write("DateTime", TodayNow.ToBinary().ToString());
 
-        writer.Commit();
-    }
-    void Resetyyyy()
-    {
-        QuickSaveWriter writer = QuickSaveWriter.Create("SaveData", m_saveSettings);
-        writer.Write("“úí‹Æ–±‘”",0);
         writer.Commit();
     }
 }

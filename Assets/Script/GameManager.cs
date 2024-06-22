@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour
     public int _cityLevel = 1;
     public int _cityPoint = 0;
     public int _money = 0;
-    public float _happyPoint = 0;
 
     [SerializeField] Text _levelText;
     [SerializeField] Text _pointText;
@@ -28,6 +27,13 @@ public class GameManager : MonoBehaviour
     public int _sliderMaxExp;
     public int _sliderExp;
     float _time;
+
+    public int _population;
+    [SerializeField] Text _popText;
+
+    public ResouceManager _rm;
+
+    [SerializeField] WardInfo[] _wardInfos;
     void Start()
     {
         Screen.SetResolution(270, 608, false);
@@ -44,8 +50,36 @@ public class GameManager : MonoBehaviour
 
         //データ読み込み
         LoadUserData();
+        GetPopulation();
     }
 
+    public void GetPopulation()
+    {
+        _population = 0;
+        //ファイルが無ければ無視
+        if (FileAccess.Exists("SaveData", false) == false)
+        {
+            return;
+        }
+
+        // QuickSaveReaderのインスタンスを作成
+        QuickSaveReader reader = QuickSaveReader.Create("SaveData", m_saveSettings);
+        for (int i = 0;i < _wardInfos.Length;i++)
+        {
+            try
+            {
+                // データを読み込む
+                _population += reader.Read<int>(_wardInfos[i]._name + "住宅");
+                _population += reader.Read<int>(_wardInfos[i]._name + "商業");
+                _population += reader.Read<int>(_wardInfos[i]._name + "工業");
+            }
+            catch (QuickSaveException e)
+            {
+
+            }
+        }
+        _popText.text = "総人口 " + _population.ToString() + "人";
+    }
     // Update is called once per frame
     void Update()
     {
@@ -53,15 +87,12 @@ public class GameManager : MonoBehaviour
         if (_time > 1)
         {
             SaveUserData();
+            GetPopulation();
             _time = 0;
         }
         _levelText.text = _cityLevel.ToString();
         _pointText.text = "都市ポイント：" + _cityPoint.ToString();
         _moneyText.text = "資金：" + YenConvert(_money) + "円";
-        if (_happyPoint > 100)
-        {
-            _happyPoint = 100;
-        }
 
         Exp();
     }

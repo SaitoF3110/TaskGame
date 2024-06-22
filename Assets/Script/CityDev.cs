@@ -16,14 +16,15 @@ public class CityDev : MonoBehaviour
     [SerializeField] Text _percentage;
     [SerializeField] Slider _gage;
     [SerializeField] Text _ddText;
+    [SerializeField] ResouceManager _resouceManager;
 
     [SerializeField] GameObject _addSE;
     [SerializeField] GameObject _failSE;
 
     [SerializeField] Text _label;
-    int _popH = 0;//Z‘îlŒû
-    int _popC = 0;//¤‹ÆlŒû
-    int _popI = 0;//H‹ÆlŒû
+    public int _popH = 0;//Z‘îlŒû
+    public int _popC = 0;//¤‹ÆlŒû
+    public int _popI = 0;//H‹ÆlŒû
 
     bool _longPress = false;
     string _pressType;
@@ -34,6 +35,9 @@ public class CityDev : MonoBehaviour
     List<string> _sightList = new List<string>();
 
     float _totalPop;
+
+    //’·‰Ÿ‚µ‚µ‚½‚Æ‚«—p
+    int _popAddCount = 1;
 
     private protected QuickSaveSettings m_saveSettings;
     void Start()
@@ -93,6 +97,7 @@ public class CityDev : MonoBehaviour
         {
             _interval = 1;
         }
+        _popAddCount = (int)_pressTime + 1;
     }
     public void SaveUserData(WardInfo wi)
     {
@@ -108,6 +113,10 @@ public class CityDev : MonoBehaviour
 
         // •ÏX‚ğ”½‰f
         writer.Commit();
+    }
+    public void OnDisable()
+    {
+        SaveUserData(_wardInfo);
     }
     public void LoadUserData(WardInfo wi)
     {
@@ -169,9 +178,11 @@ public class CityDev : MonoBehaviour
             QuickSaveWriter writer = QuickSaveWriter.Create("SaveData", m_saveSettings);
             writer.Write(_sightList[_wardDropdown.value], false);
             writer.Commit();
+            
             //íœ
             _sightList.Remove(_sightList[_wardDropdown.value]);
 
+            _resouceManager.AddMax();
             _gameManager._cityPoint -= 500;
             _gameManager.AddExp(1000);
             Instantiate(_addSE);
@@ -207,24 +218,24 @@ public class CityDev : MonoBehaviour
     }
     public void PopAdd(string type)
     {
-        if(_gameManager._cityPoint > 0)
+        if(_gameManager._cityPoint >= _popAddCount)
         {
             if (type == "H")
             {
-                _popH++;
-                _gameManager._cityPoint--;
+                _popH+= _popAddCount;
+                _gameManager._cityPoint -= _popAddCount;
             }
             if (type == "C")
             {
-                _popC++;
-                _gameManager._cityPoint--;
+                _popC += _popAddCount;
+                _gameManager._cityPoint -= _popAddCount;
             }
             if (type == "I")
             {
-                _popI++;
-                _gameManager._cityPoint--;
+                _popI += _popAddCount;
+                _gameManager._cityPoint -= _popAddCount;
             }
-            _gameManager.AddExp(1);
+            _gameManager.AddExp(_popAddCount);
             Instantiate(_addSE);
         }
         else
@@ -243,5 +254,6 @@ public class CityDev : MonoBehaviour
         _longPress = false;
         _pressTime = 0;
         _interval = 3;
+        _popAddCount = 1;
     }
 }

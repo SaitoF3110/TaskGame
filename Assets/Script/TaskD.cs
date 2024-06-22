@@ -30,7 +30,7 @@ public class TaskD : MonoBehaviour
     }
     public void AddPoint()
     {
-        _gm._cityPoint += point;
+        _gm._cityPoint += point + (int)(point * (_gm._rm._happyValue / 100));
         _gm._money += point;
     }
     public void RemoveTask()

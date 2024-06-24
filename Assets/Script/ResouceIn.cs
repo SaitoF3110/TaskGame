@@ -50,6 +50,7 @@ public class ResouceIn : MonoBehaviour
         m_saveSettings.CompressionMode = CompressionMode.Gzip;
         // データの保存先をApplication.dataPathに変更
         QuickSaveGlobalSettings.StorageLocation = Application.temporaryCachePath;
+        Value();
         LoadUserData();
     }
 
@@ -65,7 +66,7 @@ public class ResouceIn : MonoBehaviour
 
         _title.text = _name +" Lv." + _level;
         _exp = (int)(20 + _level / 10);
-        _resouce = _intro *  Mathf.Pow(1.3f, _level); ;
+        _resouce = _intro *  Mathf.Pow(1.3f, _level);
         _text.text = "生産量" + _resouce.ToString("F0") + _unit + "/日";
         _text2.text = _exp.ToString("F0") + "point";
         _needsText.text = "必要量" + _needsSum.ToString() + _unit +"/日";
@@ -120,17 +121,21 @@ public class ResouceIn : MonoBehaviour
         }
         //時間を取得
         TodayNow = DateTime.Now;
-
+        //生産量計算
+        _resouce = _intro * Mathf.Pow(1.3f, _level);
         if (TodayNow.Year != y || TodayNow.Month != m || TodayNow.Day != d)
         {
             if (_resouce < _needsSum)
             {
                 _resouceManager._happyValue -= 0.2f;
+                Debug.Log(_name + "幸福度低下...");
             }
             else
             {
                 _resouceManager._happyValue += 0.2f;
+                Debug.Log(_name + "幸福度上昇!");
             }
+            Debug.Log(_needsSum + "/" + _resouce) ;
         }
     }
     /// <summary>

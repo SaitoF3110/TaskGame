@@ -22,7 +22,7 @@ public class ResouceManager : MonoBehaviour
 
     float _time;
 
-    void Start()
+    void Awake()
     {
         // QuickSaveSettingsのインスタンスを作成
         m_saveSettings = new QuickSaveSettings();
@@ -35,6 +35,7 @@ public class ResouceManager : MonoBehaviour
         // データの保存先をApplication.dataPathに変更
         QuickSaveGlobalSettings.StorageLocation = Application.temporaryCachePath;
         LoadUserData();
+        
     }
 
     void Update()
@@ -85,6 +86,7 @@ public class ResouceManager : MonoBehaviour
         {
             
         }
+
     }
     /// <summary>
     /// データセーブ

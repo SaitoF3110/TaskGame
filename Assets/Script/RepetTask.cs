@@ -23,7 +23,6 @@ public class RepetTask : MonoBehaviour
 
     bool _login = false;
 
-    float _time;
 
     DateTime TodayNow;
 
@@ -46,17 +45,7 @@ public class RepetTask : MonoBehaviour
         LoadUserData();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        _time += Time.deltaTime;
-        if (_time > 1)
-        {
-            SaveUserData();
-            _time = 0;
-        }
 
-    }
     public void TaskDone(int num)
     {
         int count = _repetTask[num].Item3;
@@ -155,5 +144,13 @@ public class RepetTask : MonoBehaviour
         writer.Write("ŒŽ", TodayNow.Month);
 
         writer.Commit();
+    }
+    private void OnDisable()
+    {
+        SaveUserData();
+    }
+    private void OnApplicationQuit()
+    {
+        SaveUserData();
     }
 }

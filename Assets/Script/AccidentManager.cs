@@ -1,24 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class AccidentManager : MonoBehaviour
 {
     [SerializeField] string[] _accident;
     [SerializeField] string[] _ward;
+    [SerializeField] ArmyManager _am;
     void Start()
     {
         
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Accident();
-        }
+
     }
-    void Accident()
+    public void Accident(int num)
     {
-        Debug.Log(_ward[Random.Range(0, _ward.Length)] + "Ç≈" +_accident[Random.Range(0,_accident.Length)] + "Ç™î≠ê∂ÅI");
+        for (int i = 0;i < num;i++)
+        {
+            string line = _ward[Random.Range(0, _ward.Length)] + "Ç≈" + _accident[Random.Range(0, _accident.Length)] + "Ç™î≠ê∂ÅI";
+            _am._list.Add(new System.Tuple<string, int, bool>(line, Random.Range(1, 6) * 5, true));
+        }
     }
 }

@@ -37,6 +37,7 @@ public class TimeTask : MonoBehaviour
         // データの保存先をApplication.dataPathに変更
         QuickSaveGlobalSettings.StorageLocation = Application.temporaryCachePath;
 
+        LoadUserData();
         Bonus(_gameManager._cityLevel);
     }
 
@@ -76,6 +77,7 @@ public class TimeTask : MonoBehaviour
             y = reader.Read<int>("年");
             m = reader.Read<int>("月");
             d = reader.Read<int>("日");
+            _time = reader.Read<float>("蓄積時間");
         }
         catch (QuickSaveException e)
         {
@@ -126,5 +128,13 @@ public class TimeTask : MonoBehaviour
     public void Button()
     {
         _onWork = !_onWork;
+    }
+    private void OnDisable()
+    {
+        SaveUserData();
+    }
+    private void OnApplicationQuit()
+    {
+        SaveUserData();
     }
 }

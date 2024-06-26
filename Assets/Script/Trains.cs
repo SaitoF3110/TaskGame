@@ -10,6 +10,8 @@ public class Trains : MonoBehaviour
     [SerializeField] TrainInfo _trainInfo;
     [SerializeField] Slider _slider;
     [SerializeField] Text _text;
+    [SerializeField] ResouceManager _resouceManager;
+    bool _complate = false;
     public List<string> _stations = new List<string>();
     //セーブ設定
     private protected QuickSaveSettings m_saveSettings;
@@ -55,6 +57,7 @@ public class Trains : MonoBehaviour
             try
             {
                 isStation = reader.Read<bool>(_trainInfo._station[i].Trim());
+                _complate = reader.Read<bool>("達成" + _trainInfo._name);
             }
             catch (QuickSaveException e)
             {
@@ -68,5 +71,12 @@ public class Trains : MonoBehaviour
         _slider.maxValue = _trainInfo._station.Length;
         _slider.value = _stations.Count;
         _text.text = _stations.Count + "/" + _trainInfo._station.Length;
+        if (_stations.Count == _trainInfo._station.Length && !_complate)
+        {
+            QuickSaveWriter writer = QuickSaveWriter.Create("SaveData", m_saveSettings);
+            writer.Write("達成" + _trainInfo._name , true);
+            writer.Commit();
+            _resouceManager._happyMax += 10;
+        }
     }
 }

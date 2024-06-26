@@ -22,7 +22,7 @@ public class SpecialTask : MonoBehaviour
     [SerializeField] int _intarval = 100;
 
 
-    float _time;
+
 
 
     //“úí‹Æ–±ƒŠƒXƒg
@@ -45,17 +45,7 @@ public class SpecialTask : MonoBehaviour
         LoadUserData();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        _time += Time.deltaTime;
-        if (_time > 1)
-        {
-            SaveUserData();
-            _time = 0;
-        }
 
-    }
     public void TaskDone(int num)
     {
         _specialTask[num] = new Tuple<string, int, bool>(_specialTask[num].Item1, _specialTask[num].Item2, true);
@@ -146,5 +136,13 @@ public class SpecialTask : MonoBehaviour
 
 
         writer.Commit();
+    }
+    private void OnDisable()
+    {
+        SaveUserData();
+    }
+    private void OnApplicationQuit()
+    {
+        SaveUserData();
     }
 }

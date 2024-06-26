@@ -4,8 +4,6 @@ using UnityEngine;
 using CI.QuickSave;
 using CI.QuickSave.Core.Storage;
 using System;
-using UnityEditor.PackageManager.Requests;
-using static Unity.VisualScripting.Metadata;
 using System.Globalization;
 
 public class DailyTask : MonoBehaviour
@@ -28,8 +26,6 @@ public class DailyTask : MonoBehaviour
     [SerializeField] int _intarval = 100;
 
     bool _login = false;
-
-    float _time;
 
     DateTime TodayNow;
 
@@ -56,12 +52,6 @@ public class DailyTask : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _time += Time.deltaTime;
-        if (_time > 1)
-        {
-            SaveUserData();
-            _time = 0;
-        }
         
     }
     public void TaskDone(int num)
@@ -194,5 +184,13 @@ public class DailyTask : MonoBehaviour
         writer.Write("DateTime", TodayNow.ToBinary().ToString());
 
         writer.Commit();
+    }
+    private void OnDisable()
+    {
+        SaveUserData();
+    }
+    private void OnApplicationQuit()
+    {
+        SaveUserData();
     }
 }

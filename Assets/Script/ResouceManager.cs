@@ -20,8 +20,6 @@ public class ResouceManager : MonoBehaviour
 
     private protected QuickSaveSettings m_saveSettings;
 
-    float _time;
-
     void Awake()
     {
         // QuickSaveSettingsのインスタンスを作成
@@ -40,12 +38,6 @@ public class ResouceManager : MonoBehaviour
 
     void Update()
     {
-        _time += Time.deltaTime;
-        if (_time > 1)
-        {
-            SaveUserData();
-            _time = 0;
-        }
         //幸福度計算＆表示
         if (_happyValue > _happyMax)
         {
@@ -58,7 +50,7 @@ public class ResouceManager : MonoBehaviour
         _slider.maxValue = _happyMax;
         _slider.value = _happyValue;
         _maxText.text = "Max:" + _happyMax;
-        _valueText.text = "幸福度:" + _happyValue + "%";
+        _valueText.text = "幸福度:" + _happyValue.ToString("F2") + "%";
     }
 
     public void AddMax()
@@ -99,5 +91,9 @@ public class ResouceManager : MonoBehaviour
         writer.Write("幸福度Max", _happyMax);
 
         writer.Commit();
+    }
+    private void OnApplicationQuit()
+    {
+        SaveUserData();
     }
 }

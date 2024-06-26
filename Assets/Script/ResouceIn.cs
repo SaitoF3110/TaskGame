@@ -125,17 +125,19 @@ public class ResouceIn : MonoBehaviour
         _resouce = _intro * Mathf.Pow(1.3f, _level);
         if (TodayNow.Year != y || TodayNow.Month != m || TodayNow.Day != d)
         {
-            if (_resouce < _needsSum)
+            if (_gm._population != 0)
             {
-                _resouceManager._happyValue -= 0.2f;
-                Debug.Log(_name + "K•Ÿ“x’á‰º...");
+                if (_resouce < _needsSum)
+                {
+                    _resouceManager._happyValue -= 0.2f;
+                    Debug.Log(_name + "K•Ÿ“x’á‰º...");
+                }
+                else
+                {
+                    _resouceManager._happyValue += 0.2f;
+                    Debug.Log(_name + "K•Ÿ“xã¸!");
+                }
             }
-            else
-            {
-                _resouceManager._happyValue += 0.2f;
-                Debug.Log(_name + "K•Ÿ“xã¸!");
-            }
-            Debug.Log(_needsSum + "/" + _resouce) ;
         }
     }
     /// <summary>

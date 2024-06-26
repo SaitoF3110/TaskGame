@@ -220,23 +220,27 @@ public class CityDev : MonoBehaviour
     {
         if(_gameManager._cityPoint >= _popAddCount)
         {
-            if (type == "H")
+            if (type == "H" && _popH + _popAddCount <= _wardInfo._populationH)
             {
                 _popH+= _popAddCount;
                 _gameManager._cityPoint -= _popAddCount;
+                _gameManager.AddExp(_popAddCount);
+                Instantiate(_addSE);
             }
-            if (type == "C")
+            if (type == "C" && _popC + _popAddCount <= _wardInfo._populationC)
             {
                 _popC += _popAddCount;
                 _gameManager._cityPoint -= _popAddCount;
+                _gameManager.AddExp(_popAddCount);
+                Instantiate(_addSE);
             }
-            if (type == "I")
+            if (type == "I" && _popI + _popAddCount <= _wardInfo._populationI)
             {
                 _popI += _popAddCount;
                 _gameManager._cityPoint -= _popAddCount;
+                _gameManager.AddExp(_popAddCount);
+                Instantiate(_addSE);
             }
-            _gameManager.AddExp(_popAddCount);
-            Instantiate(_addSE);
         }
         else
         {

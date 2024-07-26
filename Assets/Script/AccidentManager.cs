@@ -21,7 +21,7 @@ public class AccidentManager : MonoBehaviour
         for (int i = 0;i < num;i++)
         {
             string line = _ward[Random.Range(0, _ward.Length)] + "‚Å" + _accident[Random.Range(0, _accident.Length)] + "‚ª”­¶I";
-            _am._list.Add(new System.Tuple<string, int, bool>(line, Random.Range(1, 6) * 5, true));
+            _am._list.Add(new System.Tuple<string, int, bool>(line, Random.Range(1, 6) * 3, true));
         }
     }
 }
